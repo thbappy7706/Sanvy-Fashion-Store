@@ -172,7 +172,7 @@
             <div class="col-xl-5 col-md-8 col-sm-12 mb-0  my-xl-5 text-center text-md-right position-relative">
                 <div class="header-right">
                     <ul>
-                        <li><a href="#">Login</a></li>
+                        <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="#"><i class="fas fa-heart"></i> (0)</a></li>
                         <li><a href="#">cart(3)</a>
                             <div class="card-hover p-3">
