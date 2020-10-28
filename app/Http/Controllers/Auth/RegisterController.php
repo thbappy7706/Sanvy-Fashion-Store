@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,11 +32,10 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
     protected function redirectTo()
     {
-        if(Auth::user()-> role_id == 1)
-        {
+        if(Auth()->user()->role_id == 1){
             return route('admin.dashboard');
-        }elseif (Auth::user()->role_id == 2)
-        {
+
+        }elseif(Auth()->user()->role_id == 2){
             return route('user.dashboard');
         }
     }
@@ -77,7 +75,6 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            'role_id'=> 2,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

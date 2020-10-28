@@ -1,9 +1,10 @@
 <?php
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,22 +17,25 @@ use App\Http\Controllers\AdminController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/',[FrontendController::class,'index']);
 
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Multiple Auth
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group(['prefix' => 'admin','middleware'=>['admin','auth'],'namespace'=>'admin'], function () {
 
-
-
-Route::group(['prefix'=>'admin','middleware'=>['admin','auth'], 'namespace'=>'admin'],function (){
-        Route::get('dashboard',[AdminController::class,'dash'])->name('admin.dashboard');
+    Route::get('dashboard',[AdminController::class,'index'])->name('admin.dashboard');
 });
 
-Route::group(['prefix'=>'user','middleware'=>['user','auth'], 'namespace'=>'user'],function (){
-    Route::get('dashboard',[UserController::class,'dash'])->name('user.dashboard');
+
+Route::group(['prefix' => 'user','middleware'=>['user','auth'],'namespace'=>'user'], function () {
+
+    Route::get('dashboard',[UserController::class,'index'])->name('user.dashboard');
 });
